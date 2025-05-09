@@ -17,11 +17,13 @@ path = "TrafficSign/traffic_Data/DATA"  # Directory containing class subdirector
 labelFile = "TrafficSign/labels.csv"  # CSV file containing class labels
 batch_size_val = 50
 steps_per_epoch_val = 50
-epochs_val = 30
+epochs_val = 10
 imageDimensions = (32, 32, 3)
 testRatio = 0.2
 validationRatio = 0.2
 
+
+########################## Importing of the dates
 # Prepare data arrays
 images = []
 classNo = []
@@ -55,11 +57,12 @@ for count in range(noOfClasses):
 images = np.array(images)
 classNo = np.array(classNo)
 
-# Split dataset into training, validation, and test sets
+
+################ Split dataset into training, validation, and test sets
 X_train, X_test, y_train, y_test = train_test_split(images, classNo, test_size=testRatio)
 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, test_size=validationRatio)
 
-# Check the shapes of the datasets
+####################### Check the shapes of the datasets
 print("Data Shapes:")
 print("Train:", X_train.shape, y_train.shape)
 print("Validation:", X_validation.shape, y_validation.shape)
@@ -73,6 +76,32 @@ assert (X_train.shape[1:] == imageDimensions)
 assert (X_validation.shape[1:] == imageDimensions)
 assert (X_test.shape[1:] == imageDimensions)
 
+data = pd.read_csv(labelFile)
+print("Data shape: ",data.shape, type(data))
+
+
+num_of_samples = []
+cols = 5
+num_classes = noOfClasses
+fig, axs = plt.subplots(nrows=num_classes, ncols=cols, figsize=(5, 300))
+fig.tight_layout()
+for i in range(cols):
+    for j, row in data.iterrows():
+        x_selected = X_train[y_train == j]
+        axs[j][i].imshow(x_selected[random.randint(0, len(x_selected)-1), :, :], cmap=plt.get_cmap("gray"))
+        axs[j][i].axis('off')
+        if i == 2:
+            axs[j][i].set_title(str(j) + "-" + row["Name"])
+            num_of_samples.append(len(x_selected))
+
+
+print(num_of_samples)
+plt.figure(figsize=(12, 4))
+plt.bar(range(0, num_classes), num_of_samples)
+plt.title("Description of the training dataset")
+plt.xlabel("Classes")
+plt.ylabel("Number of images")
+plt.show()
 
 # Preprocessing functions (convert to grayscale and equalize)
 def grayscale(img):
