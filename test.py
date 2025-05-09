@@ -7,7 +7,7 @@ import pandas as pd
 frameWidth = 640
 frameHeight = 480
 brightness = 180
-threshold = 0.90
+threshold = 0.6
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 # Initialize webcam

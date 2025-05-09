@@ -40,7 +40,6 @@ print("Importing Classes...")
 # Loop through each class folder (0, 1, 2, ..., etc.)
 for count in range(noOfClasses):
     classFolderPath = os.path.join(path, str(count))  # Path for each class folder (e.g., "0", "1", ...)
-
     if os.path.exists(classFolderPath):
         myPicList = os.listdir(classFolderPath)  # List images in the class folder
         for y in myPicList:
@@ -78,7 +77,6 @@ assert (X_test.shape[1:] == imageDimensions)
 
 data = pd.read_csv(labelFile)
 print("Data shape: ",data.shape, type(data))
-
 
 num_of_samples = []
 cols = 5
